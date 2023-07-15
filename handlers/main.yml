@@ -1,0 +1,33 @@
+---
+- name: "Stop Kibana"
+  register: kibana_service_status
+  when: (groups[kibana_group_name] | length > 1)
+  changed_when: not kibana_service_status.status.ActiveState != "stopped"
+  ansible.builtin.service:
+    name: "kibana"
+    state: "stopped"
+
+- name: "Enable and start Kibana"
+  register: kibana_service_status
+  changed_when: not kibana_service_status.state != "started"
+  throttle: 1
+  ansible.builtin.service:
+    name: "kibana"
+    state: "started"
+    daemon_reload: true
+    enabled: yes
+
+- name: "Restart Kibana"
+  register: kibana_service_status
+  changed_when: not kibana_service_status.state != "restarted"
+  throttle: 1
+  ansible.builtin.service:
+    name: "kibana"
+    state: "restarted"
+    daemon_reload: true
+    enabled: yes
+
+- name: "Delay Kibana starting"
+  ansible.builtin.wait_for:
+    delay: 30
+    timeout: 0

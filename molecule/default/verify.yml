@@ -1,0 +1,33 @@
+---
+# Don't forget to keep this file updated
+# molecule/<scenario>/verify.yml
+- name: "Verify"
+  hosts: "all"
+  gather_facts: false
+  tasks:
+
+    - name: "Get Kibana service current state"
+      register: kibana_service_status
+      failed_when: not kibana_service_status.status.ActiveState == 'active'
+      ansible.builtin.systemd:
+        name: "kibana"
+
+    - name: "Check Kibana folders and conf"
+      when: (inv_kibana_ssl_src is defined and inv_kibana_p12_password is defined)
+      loop:
+        - "{{ inv_kibana_ssl_path }}/{{ inv_kibana_cluster_name }}/{{ inv_kibana_cluster_name }}.p12"
+        - "{{ inv_kibana_ssl_path }}/{{ inv_kibana_cluster_name }}/{{ inv_kibana_cluster_name }}.key"
+        - "{{ inv_kibana_ssl_path }}/{{ inv_kibana_cluster_name }}/{{ inv_kibana_cluster_name }}.pem"
+        - "{{ inv_kibana_ssl_path }}/{{ inv_kibana_cluster_name }}/{{ inv_kibana_cluster_name }}.crt"
+      loop_control:
+        loop_var: folder_path
+      register: folder_path
+      failed_when: not folder_path.stat.exists
+      ansible.builtin.stat:
+        path: "{{ folder_path }}"
+
+    - name: "Check Kibana connectivity"
+      ansible.builtin.wait_for:
+        host: "{{ inventory_hostname }}"
+        port: "{{ inv_kibana_port }}"
+        timeout: 120

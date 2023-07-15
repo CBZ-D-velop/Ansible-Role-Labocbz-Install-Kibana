@@ -1,0 +1,28 @@
+---
+kibana_major_version: "8"
+
+kibana_config_path: "/etc/kibana"
+kibana_host: "0.0.0.0"
+kibana_port: 5601
+kibana_cluster_name: "my.kibana-cluster.tld"
+
+kibana_rewrite_base_path: false
+kibana_base_path: ""
+#kibana_public_base_url: ""
+
+kibana_ssl_path: "{{ kibana_config_path }}/ssl"
+kibana_p12_password: "myPassword"
+
+kibana_elasticsearch_port: 9200
+kibana_elastic_user: "elastic"
+kibana_elastic_password: "myVeryStringP@ssword"
+kibana_elastic_client_auth: false
+kibana_ssl_authorities: "/etc/ssl/cacert"
+
+#kibana_service_account_token: "myToken"
+kibana_service_account_token_basename: "TOKEN-TO-BE-CREATED"
+kibana_elastic_protocol: "http"
+kibana_elastic_hosts:
+  - "localhost"
+
+kibana_group: "kibana"

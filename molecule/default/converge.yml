@@ -1,0 +1,37 @@
+---
+- name: "Converge"
+  hosts: "all"
+  tasks:
+    # replace these tasks with whatever you find suitable to test
+    - name: "Copy something to test use of synchronize module"
+      ansible.builtin.copy:
+        src: "/etc/hosts"
+        dest: "/tmp/hosts-from-controller"
+        mode: 0700
+
+    - name: "Include labocbz.install_kibana"
+      tags:
+        - "labocbz.install_kibana"
+      vars:
+        kibana_major_version: "{{ inv_kibana_major_version }}"
+        kibana_config_path: "{{ inv_kibana_config_path }}"
+        kibana_port: "{{ inv_kibana_port }}"
+        kibana_cluster_name: "{{ inv_kibana_cluster_name }}"
+        kibana_rewrite_base_path: "{{ inv_kibana_rewrite_base_path }}"
+        kibana_base_path: "{{ inv_kibana_base_path }}"
+        kibana_public_pase_url: "{{ inv_kibana_public_pase_url }}"
+        kibana_ssl_src: "{{ inv_kibana_ssl_src }}"
+        kibana_ssl_path: "{{ inv_kibana_ssl_path }}"
+        kibana_p12_password: "{{ inv_kibana_p12_password }}"
+        kibana_elasticsearch_port: "{{ inv_kibana_elasticsearch_port }}"
+        #kibana_service_account_token: "{{ inv_kibana_service_account_token }}"
+        kibana_service_account_token_basename: "{{ inv_kibana_service_account_token_basename }}"
+        kibana_elastic_password: "{{ inv_kibana_elastic_password }}"
+        kibana_elastic_user: "{{ inv_kibana_elastic_user }}"
+        kibana_elastic_protocol: "{{ inv_kibana_elastic_protocol }}"
+        kibana_elastic_hosts: "{{ inv_kibana_elastic_hosts }}"
+        kibana_group: "{{ inv_kibana_group }}"
+        kibana_elastic_client_auth: "{{ inv_kibana_elastic_client_auth }}"
+        kibana_ssl_authorities: "{{ inv_kibana_ssl_authorities }}"
+      ansible.builtin.include_role:
+        name: "labocbz.install_kibana"
