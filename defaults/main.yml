@@ -1,28 +1,32 @@
 ---
-kibana_major_version: "8"
+install_kibana_major_version: "8"
 
-kibana_config_path: "/etc/kibana"
-kibana_host: "0.0.0.0"
-kibana_port: 5601
-kibana_cluster_name: "my.kibana-cluster.tld"
+install_kibana_config_path: "/etc/kibana"
+install_kibana_host: "0.0.0.0"
+install_kibana_port: 5601
+install_kibana_cluster_name: "my.kibana-cluster.tld"
 
-kibana_rewrite_base_path: false
-kibana_base_path: ""
-#kibana_public_base_url: ""
+install_kibana_rewrite_base_path: false
+install_kibana_base_path: ""
+#install_kibana_public_base_url: ""
 
-kibana_ssl_path: "{{ kibana_config_path }}/ssl"
-kibana_p12_password: "myPassword"
+install_kibana_ssl_path: "{{ install_kibana_config_path }}/ssl"
+install_kibana_p12_password: "myPassword"
 
-kibana_elasticsearch_port: 9200
-kibana_elastic_user: "elastic"
-kibana_elastic_password: "myVeryStringP@ssword"
-kibana_elastic_client_auth: false
-kibana_ssl_authorities: "/etc/ssl/cacert"
+install_kibana_elasticsearch_port: 9200
+install_kibana_elastic_user: "elastic"
+install_kibana_elastic_password: "myVeryStringP@ssword"
 
-#kibana_service_account_token: "myToken"
-kibana_service_account_token_basename: "TOKEN-TO-BE-CREATED"
-kibana_elastic_protocol: "http"
-kibana_elastic_hosts:
-  - "localhost"
+install_kibana_ssl: true
+install_kibana_elastic_client_auth: false
+install_kibana_ssl_key: "/etc/ssl/myCert.key"
+install_kibana_ssl_crt: "/etc/ssl/myCert.crt"
+install_kibana_ssl_authorities: "/etc/ssl/cacert"
 
-kibana_group: "kibana"
+#install_kibana_service_account_token: "myToken"
+install_kibana_service_account_token_basename: "TOKEN-TO-BE-CREATED"
+install_kibana_elastic_protocol: "http"
+install_kibana_elastic_hosts:
+  - "localhost:9200"
+
+install_kibana_group: "kibana"

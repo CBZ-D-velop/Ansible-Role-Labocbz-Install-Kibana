@@ -9,52 +9,49 @@
 
 # =================== System: Kibana Server ===================
 # Kibana is served by a back end server. This setting specifies the port to use.
-server.port: {{ kibana_port }}
+server.port: {{ install_kibana_port }}
 
 # Specifies the address to which the Kibana server will bind. IP addresses and host names are both valid values.
 # The default is 'localhost', which usually means remote machines will not be able to connect.
 # To allow connections from remote users, set this parameter to a non-loopback address.
-server.host: "{{ kibana_host }}"
+server.host: "{{ install_kibana_host }}"
 
 # Enables you to specify a path to mount Kibana at if you are running behind a proxy.
 # Use the `server.rewriteBasePath` setting to tell Kibana if it should remove the basePath
 # from requests it receives, and to prevent a deprecation warning at startup.
 # This setting cannot end in a slash.
-{% if kibana_base_path is defined %}
-{% if kibana_base_path != "" %}
-server.basePath: "{{ kibana_base_path }}"
-{% endif %}
+{% if install_kibana_base_path | default(false) %}
+server.basePath: "{{ install_kibana_base_path }}"
 {% endif %}
 
 # Specifies whether Kibana should rewrite requests that are prefixed with
 # `server.basePath` or require that they are rewritten by your reverse proxy.
 # Defaults to `false`.
-server.rewriteBasePath: "{{ kibana_rewrite_base_path }}"
+server.rewriteBasePath: "{{ install_kibana_rewrite_base_path }}"
 
 # Specifies the public URL at which Kibana is available for end users. If
 # `server.basePath` is configured this URL should end with the same basePath.
 #server.publicBaseUrl:
-{% if kibana_public_base_url is defined %}
-{% if kibana_public_base_url != "" %}
-server.publicBaseUrl: "{{ kibana_public_base_url }}"
+{% if install_kibana_public_base_url | default(false) %}
+server.publicBaseUrl: "{{ install_kibana_public_base_url }}"
 {% endif %}
-{% endif %}
+
 # The maximum payload size in bytes for incoming server requests.
 #server.maxPayload: 1048576
 
 # The Kibana server's name. This is used for display purposes.
-server.name: "{{ kibana_cluster_name }}"
+server.name: "{{ install_kibana_cluster_name }}"
 
 # =================== System: Kibana Server (Optional) ===================
 # Enables SSL and paths to the PEM-format SSL certificate and SSL key files, respectively.
 # These settings enable SSL for outgoing requests from the Kibana server to the browser.
-{% if kibana_p12_password is defined %}
+{% if install_kibana_ssl | default(false) %}
 server.ssl.enabled: true
-server.ssl.certificate: {{ kibana_ssl_path }}/{{ kibana_cluster_name }}/{{ kibana_cluster_name }}.crt
-server.ssl.key: {{ kibana_ssl_path }}/{{ kibana_cluster_name }}/{{ kibana_cluster_name }}.key
+server.ssl.certificate: {{ install_kibana_ssl_crt }}
+server.ssl.key: {{ install_kibana_ssl_key }}
 
 xpack.security.public.protocol: https
-#xpack.security.public.hostname: KIBANA_URL
+#xpack.security.public.hostname: install_kibana_URL
 {% else %}
 #server.ssl.enabled: false
 #server.ssl.certificate: /path/to/your/server.crt
@@ -66,8 +63,8 @@ xpack.security.public.protocol: https
 # The URLs of the Elasticsearch instances to use for all your queries.
 #elasticsearch.hosts: ["http://localhost:9200"]
 elasticsearch.hosts:
-{% for host in kibana_elastic_hosts %}
-  - "{{ kibana_elastic_protocol }}://{{ hostvars[host]['ansible_default_ipv4']['address'] }}:{{ kibana_elasticsearch_port }}"
+{% for host in install_kibana_elastic_hosts %}
+  - "{{ install_kibana_elastic_protocol }}://{{ host }}"
 {% endfor %}
 
 # If your Elasticsearch is protected with basic authentication, these settings provide
@@ -82,7 +79,7 @@ elasticsearch.hosts:
 # Use this token instead of a username/password.
 # elasticsearch.serviceAccountToken: "my_token"
 
-elasticsearch.serviceAccountToken: "{{ kibana_service_account_token }}"
+elasticsearch.serviceAccountToken: "{{ install_kibana_service_account_token }}"
 
 # Time in milliseconds to wait for Elasticsearch to respond to pings. Defaults to the value of
 # the elasticsearch.requestTimeout setting.
@@ -115,10 +112,10 @@ elasticsearch.serviceAccountToken: "{{ kibana_service_account_token }}"
 # These files are used to verify the identity of Kibana to Elasticsearch and are required when
 # xpack.security.http.ssl.client_authentication in Elasticsearch is set to required.
 
-{% if kibana_elastic_client_auth %}
-elasticsearch.ssl.certificate: "{{ kibana_ssl_path }}/{{ kibana_cluster_name }}/{{ kibana_cluster_name }}.crt"
-elasticsearch.ssl.key: "{{ kibana_ssl_path }}/{{ kibana_cluster_name }}/{{ kibana_cluster_name }}.key"
-elasticsearch.ssl.certificateAuthorities: [ "{{ kibana_ssl_authorities }}" ]
+{% if install_kibana_elastic_client_auth | default(false) %}
+elasticsearch.ssl.certificate: "{{ install_kibana_ssl_crt }}"
+elasticsearch.ssl.key: "{{ install_kibana_ssl_key }}"
+elasticsearch.ssl.certificateAuthorities: [ "{{ install_kibana_ssl_authorities }}" ]
 {% endif %}
 
 #elasticsearch.ssl.certificate: /path/to/your/client.crt
@@ -129,7 +126,7 @@ elasticsearch.ssl.certificateAuthorities: [ "{{ kibana_ssl_authorities }}" ]
 #elasticsearch.ssl.certificateAuthorities: [ "/path/to/your/CA.pem" ]
 
 # To disregard the validity of SSL certificates, change this setting's value to 'none'.
-elasticsearch.ssl.verificationMode: none
+elasticsearch.ssl.verificationMode: certificate
 
 # =================== System: Logging ===================
 # Set the value of this setting to off to suppress all logging output, or to debug to log everything. Defaults to 'info'

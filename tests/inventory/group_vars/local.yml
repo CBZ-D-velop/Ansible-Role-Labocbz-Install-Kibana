@@ -1,30 +1,28 @@
 ---
-inv_kibana_major_version: "8"
+inv_install_kibana_major_version: "8"
 
-inv_kibana_config_path: "/etc/kibana"
-inv_kibana_port: 5601
-inv_kibana_cluster_name: "my.kibana-cluster.tld"
-inv_kibana_group_name: "all"
+inv_install_kibana_config_path: "/etc/kibana"
+inv_install_kibana_port: 5601
+inv_install_kibana_cluster_name: "my-kibana-cluster-role.domain.tld"
 
-inv_kibana_rewrite_base_path: false
-#inv_kibana_base_path: ""
-#inv_kibana_public_base_url: "https://localhost:{{ inv_kibana_port }}"
+inv_install_kibana_rewrite_base_path: false
+#inv_install_kibana_base_path: ""
+#inv_install_kibana_public_base_url: "https://localhost:{{ inv_install_kibana_port }}"
 
-inv_kibana_ssl_path: "{{ inv_kibana_config_path }}/ssl"
-inv_kibana_p12_password: "secret"
+inv_install_kibana_ssl_path: "{{ inv_install_kibana_config_path }}/ssl"
 
-inv_kibana_elasticsearch_port: 9200
-inv_kibana_elastic_user: "elastic"
-inv_kibana_elastic_password: "myVeryStringP@ssword"
-#inv_kibana_service_account_token: ""
-inv_kibana_service_account_token_basename: "ANSIBLE-{{ ansible_date_time.iso8601_micro.replace(':', '-').replace('.', '-') }}"
-inv_kibana_elastic_client_auth: true
-inv_kibana_ssl_authorities: "{{ inv_kibana_ssl_path }}/My-Local-CA-Authority/My-Local-CA-Authority.crt"
-inv_kibana_elastic_protocol: "https"
-inv_kibana_elasticsearch_group_name: "elasticsearch"
-inv_kibana_elastic_hosts: "{{ groups[inv_elasticsearch_group_name] }}"
-#  - "molecule-local-instance-1-install-kibana"
-#  - "molecule-local-instance-2-install-kibana"
-#  - "molecule-local-instance-3-install-kibana"
+inv_install_kibana_elasticsearch_port: 9200
+inv_install_kibana_elastic_user: "elastic"
+inv_install_kibana_elastic_password: "myVeryStringP@ssword"
+#inv_install_kibana_service_account_token: ""
+inv_install_kibana_service_account_token_basename: "ANSIBLE-{{ ansible_date_time.iso8601_micro.replace(':', '-').replace('.', '-') }}"
+inv_install_kibana_elastic_client_auth: true
+inv_install_kibana_ssl_key: "{{ inv_install_kibana_ssl_path }}/{{ inv_install_kibana_cluster_name }}/{{ inv_install_kibana_cluster_name }}.pem.key"
+inv_install_kibana_ssl_crt: "{{ inv_install_kibana_ssl_path }}/{{ inv_install_kibana_cluster_name }}/{{ inv_install_kibana_cluster_name }}.pem.crt"
 
-inv_kibana_group: "kibana"
+inv_install_kibana_ssl_authorities: "{{ inv_install_kibana_ssl_path }}/{{ inv_install_kibana_cluster_name }}/ca-chain.pem.crt"
+inv_install_kibana_elastic_protocol: "https"
+inv_install_kibana_elastic_hosts:
+  - "molecule-local-instance-1-install-kibana:9200"
+  - "molecule-local-instance-2-install-kibana:9200"
+  - "molecule-local-instance-3-install-kibana:9200"
