@@ -18,6 +18,16 @@
 
 An Ansible role install and configure Kibana your server.
 
+The Ansible role for installing Kibana is a powerful and versatile automation solution that caters to various aspects of the installation process. With a focus on security and ease of use, this role enables the seamless deployment of Kibana on the target machine while offering robust SSL management capabilities.
+
+Key features of the role include SSL setup for Kibana, ensuring secure communication between Kibana and Elasticsearch. The role can also handle SSL with Client Authentication (mTLS), providing an added layer of security during communication. Furthermore, the role facilitates the installation of Kibana from scratch, eliminating the need to store admin Elastic login credentials, which enhances security by reducing exposure.
+
+Another valuable feature is the ability to set a time-dated configuration token, allowing for eventual deletion or expiration of sensitive configurations. This ensures a more controlled and secure environment, particularly when managing access tokens or credentials.
+
+In addition to its security prowess, the role caters to Elasticsearch clustering. By specifying the desired cluster name with the "install_kibana_cluster_name" variable, users can easily manage Elasticsearch clusters in conjunction with their Kibana installation.
+
+Overall, this Ansible role for installing Kibana provides a comprehensive and flexible solution, empowering users to automate Kibana deployment with SSL, mTLS, and Elasticsearch clustering support, all while ensuring a secure and hassle-free installation process.
+
 ## Folder structure
 
 By default Ansible will look in each directory within a role for a main.yml file for relevant content (also man.yml and main):
@@ -101,33 +111,38 @@ Some vars a required to run this role:
 
 ```YAML
 ---
-kibana_major_version: "8"
+---
+install_kibana_major_version: "8"
 
-kibana_config_path: "/etc/kibana"
-kibana_host: "0.0.0.0"
-kibana_port: 5601
-kibana_cluster_name: "my.kibana-cluster.tld"
+install_kibana_config_path: "/etc/kibana"
+install_kibana_host: "0.0.0.0"
+install_kibana_port: 5601
+install_kibana_cluster_name: "my.kibana-cluster.tld"
 
-kibana_rewrite_base_path: false
-kibana_base_path: ""
-#kibana_public_base_url: ""
+install_kibana_rewrite_base_path: false
+install_kibana_base_path: ""
+#install_kibana_public_base_url: ""
 
-kibana_ssl_path: "{{ kibana_config_path }}/ssl"
-kibana_p12_password: "myPassword"
+install_kibana_ssl_path: "{{ install_kibana_config_path }}/ssl"
+install_kibana_p12_password: "myPassword"
 
-kibana_elasticsearch_port: 9200
-kibana_elastic_user: "elastic"
-kibana_elastic_password: "myVeryStringP@ssword"
-kibana_elastic_client_auth: false
-kibana_ssl_authorities: "/etc/ssl/cacert"
+install_kibana_elasticsearch_port: 9200
+install_kibana_elastic_user: "elastic"
+install_kibana_elastic_password: "myVeryStringP@ssword"
 
-#kibana_service_account_token: "myToken"
-kibana_service_account_token_basename: "TOKEN-TO-BE-CREATED"
-kibana_elastic_protocol: "http"
-kibana_elastic_hosts:
-  - "localhost"
+install_kibana_ssl: true
+install_kibana_elastic_client_auth: false
+install_kibana_ssl_key: "/etc/ssl/myCert.key"
+install_kibana_ssl_crt: "/etc/ssl/myCert.crt"
+install_kibana_ssl_authorities: "/etc/ssl/cacert"
 
-kibana_group: "kibana"
+#install_kibana_service_account_token: "myToken"
+install_kibana_service_account_token_basename: "TOKEN-TO-BE-CREATED"
+install_kibana_elastic_protocol: "http"
+install_kibana_elastic_hosts:
+  - "localhost:9200"
+
+install_kibana_group: "kibana"
 
 ```
 
@@ -140,35 +155,33 @@ In order to surchage vars, you have multiples possibilities but for mains cases 
 ```YAML
 # From inventory
 ---
-inv_kibana_major_version: "8"
+inv_install_kibana_major_version: "8"
 
-inv_kibana_config_path: "/etc/kibana"
-inv_kibana_port: 5601
-inv_kibana_cluster_name: "my.kibana-cluster.tld"
-inv_kibana_group_name: "all"
+inv_install_kibana_config_path: "/etc/kibana"
+inv_install_kibana_port: 5601
+inv_install_kibana_cluster_name: "my-kibana-cluster-role.domain.tld"
 
-inv_kibana_rewrite_base_path: false
-#inv_kibana_base_path: ""
-#inv_kibana_public_base_url: "https://localhost:{{ inv_kibana_port }}"
+inv_install_kibana_rewrite_base_path: false
+#inv_install_kibana_base_path: ""
+#inv_install_kibana_public_base_url: "https://localhost:{{ inv_install_kibana_port }}"
 
-inv_kibana_ssl_path: "{{ inv_kibana_config_path }}/ssl"
-inv_kibana_p12_password: "secret"
+inv_install_kibana_ssl_path: "{{ inv_install_kibana_config_path }}/ssl"
 
-inv_kibana_elasticsearch_port: 9200
-inv_kibana_elastic_user: "elastic"
-inv_kibana_elastic_password: "myVeryStringP@ssword"
-#inv_kibana_service_account_token: ""
-inv_kibana_service_account_token_basename: "ANSIBLE-{{ ansible_date_time.iso8601_micro.replace(':', '-').replace('.', '-') }}"
-inv_kibana_elastic_client_auth: true
-inv_kibana_ssl_authorities: "{{ inv_kibana_ssl_path }}/My-Local-CA-Authority/My-Local-CA-Authority.crt"
-inv_kibana_elastic_protocol: "https"
-inv_kibana_elasticsearch_group_name: "elasticsearch"
-inv_kibana_elastic_hosts: "{{ groups[inv_elasticsearch_group_name] }}"
-#  - "molecule-local-instance-1-install-kibana"
-#  - "molecule-local-instance-2-install-kibana"
-#  - "molecule-local-instance-3-install-kibana"
+inv_install_kibana_elasticsearch_port: 9200
+inv_install_kibana_elastic_user: "elastic"
+inv_install_kibana_elastic_password: "myVeryStringP@ssword"
+#inv_install_kibana_service_account_token: ""
+inv_install_kibana_service_account_token_basename: "ANSIBLE-{{ ansible_date_time.iso8601_micro.replace(':', '-').replace('.', '-') }}"
+inv_install_kibana_elastic_client_auth: true
+inv_install_kibana_ssl_key: "{{ inv_install_kibana_ssl_path }}/{{ inv_install_kibana_cluster_name }}/{{ inv_install_kibana_cluster_name }}.pem.key"
+inv_install_kibana_ssl_crt: "{{ inv_install_kibana_ssl_path }}/{{ inv_install_kibana_cluster_name }}/{{ inv_install_kibana_cluster_name }}.pem.crt"
 
-inv_kibana_group: "kibana"
+inv_install_kibana_ssl_authorities: "{{ inv_install_kibana_ssl_path }}/{{ inv_install_kibana_cluster_name }}/ca-chain.pem.crt"
+inv_install_kibana_elastic_protocol: "https"
+inv_install_kibana_elastic_hosts:
+  - "molecule-local-instance-1-install-kibana:9200"
+  - "molecule-local-instance-2-install-kibana:9200"
+  - "molecule-local-instance-3-install-kibana:9200"
 
 ```
 
@@ -187,26 +200,26 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
   tags:
     - "labocbz.install_kibana"
   vars:
-    kibana_major_version: "{{ inv_kibana_major_version }}"
-    kibana_config_path: "{{ inv_kibana_config_path }}"
-    kibana_port: "{{ inv_kibana_port }}"
-    kibana_cluster_name: "{{ inv_kibana_cluster_name }}"
-    kibana_rewrite_base_path: "{{ inv_kibana_rewrite_base_path }}"
-    kibana_base_path: "{{ inv_kibana_base_path }}"
-    kibana_public_pase_url: "{{ inv_kibana_public_pase_url }}"
-    kibana_ssl_src: "{{ inv_kibana_ssl_src }}"
-    kibana_ssl_path: "{{ inv_kibana_ssl_path }}"
-    kibana_p12_password: "{{ inv_kibana_p12_password }}"
-    kibana_elasticsearch_port: "{{ inv_kibana_elasticsearch_port }}"
-    #kibana_service_account_token: "{{ inv_kibana_service_account_token }}"
-    kibana_service_account_token_basename: "{{ inv_kibana_service_account_token_basename }}"
-    kibana_elastic_password: "{{ inv_kibana_elastic_password }}"
-    kibana_elastic_user: "{{ inv_kibana_elastic_user }}"
-    kibana_elastic_protocol: "{{ inv_kibana_elastic_protocol }}"
-    kibana_elastic_hosts: "{{ inv_kibana_elastic_hosts }}"
-    kibana_group: "{{ inv_kibana_group }}"
-    kibana_elastic_client_auth: "{{ inv_kibana_elastic_client_auth }}"
-    kibana_ssl_authorities: "{{ inv_kibana_ssl_authorities }}"
+    install_kibana_major_version: "{{ inv_install_kibana_major_version }}"
+    install_kibana_config_path: "{{ inv_install_kibana_config_path }}"
+    install_kibana_port: "{{ inv_install_kibana_port }}"
+    install_kibana_cluster_name: "{{ inv_install_kibana_cluster_name }}"
+    install_kibana_rewrite_base_path: "{{ inv_install_kibana_rewrite_base_path }}"
+    install_kibana_base_path: "{{ inv_install_kibana_base_path }}"
+    install_kibana_public_pase_url: "{{ inv_install_kibana_public_pase_url }}"
+    install_kibana_ssl_src: "{{ inv_install_kibana_ssl_src }}"
+    install_kibana_ssl_path: "{{ inv_install_kibana_ssl_path }}"
+    install_kibana_elasticsearch_port: "{{ inv_install_kibana_elasticsearch_port }}"
+    #install_kibana_service_account_token: "{{ inv_install_kibana_service_account_token }}"
+    install_kibana_service_account_token_basename: "{{ inv_install_kibana_service_account_token_basename }}"
+    install_kibana_elastic_password: "{{ inv_install_kibana_elastic_password }}"
+    install_kibana_elastic_user: "{{ inv_install_kibana_elastic_user }}"
+    install_kibana_elastic_protocol: "{{ inv_install_kibana_elastic_protocol }}"
+    install_kibana_elastic_hosts: "{{ inv_install_kibana_elastic_hosts }}"
+    install_kibana_elastic_client_auth: "{{ inv_install_kibana_elastic_client_auth }}"
+    install_kibana_ssl_authorities: "{{ inv_install_kibana_ssl_authorities }}"
+    install_kibana_ssl_key: "{{ inv_install_kibana_ssl_key }}"
+    install_kibana_ssl_crt: "{{ inv_install_kibana_ssl_crt }}"
   ansible.builtin.include_role:
     name: "labocbz.install_kibana"
 ```
