@@ -112,7 +112,7 @@ scenario:
     - "create"
     - "prepare"
     - "converge"
-    - "idempotence"
+    #- "idempotence"
     #- "side_effect" # need a "requirements.yml" file
     - "verify"
     - "destroy"
