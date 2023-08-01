@@ -8,8 +8,6 @@
 - name: "Install Kibana"
   notify: 
     - "Enable and start Kibana"
-    - "Restart Kibana"
-    - "Delay Kibana starting"
   block:
     - name: "Add Kibana GPG apt Key"
       ansible.builtin.apt_key:
@@ -27,13 +25,12 @@
 
 - name: "Configure Kibana"
   notify:
-    - "Enable and start Kibana"
     - "Restart Kibana"
     - "Delay Kibana starting"
   block:
     - name: "Get new enrollment TOKEN"
       run_once: true
-      when: not (install_kibana_service_account_token | default(false)) and not (install_kibana_service_account_token_fact | default(false))
+      when: not (install_kibana_service_account_token_fact | default(false))
       block:
         - name: "Get the token client certs"
           when:  install_kibana_elastic_client_auth | default(false)
@@ -57,7 +54,7 @@
                 install_kibana_service_account_token: "{{ install_kibana_service_account_token_response.json.token.value }}"
 
         - name: "Get the token without client certs"
-          when: install_kibana_elastic_client_auth | default(true)
+          when: not (install_kibana_elastic_client_auth | default(true))
           block:
             - name: "Call the API and get a new TOKEN"
               register: install_kibana_service_account_token_response
