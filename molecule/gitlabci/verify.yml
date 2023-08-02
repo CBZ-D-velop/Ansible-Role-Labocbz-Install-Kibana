@@ -28,4 +28,4 @@
       ansible.builtin.wait_for:
         host: "{{ inventory_hostname }}"
         port: "{{ inv_install_kibana_port }}"
-        timeout: 120
+        timeout: 240
