@@ -26,6 +26,6 @@
 
     - name: "Check Kibana connectivity"
       ansible.builtin.wait_for:
-        host: "{{ inventory_hostname }}"
+        host: "localhost"
         port: "{{ inv_install_kibana_port }}"
         timeout: 240
