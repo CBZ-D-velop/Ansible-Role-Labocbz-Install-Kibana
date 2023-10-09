@@ -10,6 +10,7 @@ driver:
 platforms:
   - name: "molecule-local-instance-1-install-kibana"
     image: "robincbz/debian-11-ansible:latest"
+    command: "/sbin/init"
     published_ports:
       - "0.0.0.0:5601:5601/tcp"
     dockerfile: "Dockerfile"
@@ -29,6 +30,7 @@ platforms:
 
   - name: "molecule-local-instance-2-install-kibana"
     image: "robincbz/debian-11-ansible:latest"
+    command: "/sbin/init"
     published_ports:
       - "0.0.0.0:5602:5601/tcp"
     dockerfile: "Dockerfile"
@@ -48,6 +50,7 @@ platforms:
 
   - name: "molecule-local-instance-3-install-kibana"
     image: "robincbz/debian-11-ansible:latest"
+    command: "/sbin/init"
     published_ports:
       - "0.0.0.0:5603:5601/tcp"
     dockerfile: "Dockerfile"
@@ -73,7 +76,7 @@ provisioner:
       group_vars: "../../tests/inventory/group_vars/"
       host_vars: "../../tests/inventory/host_vars/"
   options:
-    extra-vars: "@./../../tests/tower/tower.yml"
+    extra-vars: "@./tests/tower/tower.yml"
   log: ${MOLECULE_ANSIBLE_LOG:-true}
   env:
     ANSIBLE_CONFIG: "../../.ansible.cfg"
