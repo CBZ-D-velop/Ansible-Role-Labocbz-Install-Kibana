@@ -24,5 +24,3 @@ inv_install_kibana_ssl_authorities: "{{ inv_install_kibana_ssl_path }}/{{ inv_in
 inv_install_kibana_elastic_protocol: "https"
 inv_install_kibana_elastic_hosts:
   - "molecule-local-instance-1-install-kibana:9200"
-  - "molecule-local-instance-2-install-kibana:9200"
-  - "molecule-local-instance-3-install-kibana:9200"
