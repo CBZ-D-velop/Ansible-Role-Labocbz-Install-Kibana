@@ -59,9 +59,9 @@ scenario:
     - "destroy"
     - "dependency" # need a "requirements.yml" file
     - "syntax"
-    #- "create"
-    #- "prepare"
-    #- "converge"
+    - "create"
+    - "prepare"
+    - "converge"
     #- "idempotence"
     - "side_effect" # need a "requirements.yml" file
     - "verify"
