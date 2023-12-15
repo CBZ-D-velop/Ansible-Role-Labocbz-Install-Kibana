@@ -6,6 +6,9 @@ install_kibana_host: "0.0.0.0"
 install_kibana_port: 5601
 install_kibana_cluster_name: "my.kibana-cluster.tld"
 
+install_kibana_loglevel: "info"
+install_kibana_log_path: "/var/log/kibana"
+
 install_kibana_rewrite_base_path: false
 install_kibana_base_path: ""
 #install_kibana_public_base_url: ""
@@ -29,4 +32,5 @@ install_kibana_elastic_protocol: "http"
 install_kibana_elastic_hosts:
   - "localhost:9200"
 
+install_kibana_user: "kibana"
 install_kibana_group: "kibana"

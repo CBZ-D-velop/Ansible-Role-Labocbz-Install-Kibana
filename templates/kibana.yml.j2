@@ -130,29 +130,33 @@ elasticsearch.ssl.verificationMode: certificate
 
 # =================== System: Logging ===================
 # Set the value of this setting to off to suppress all logging output, or to debug to log everything. Defaults to 'info'
-#logging.root.level: debug
-
+logging.root.level: {{ install_kibana_loglevel }}
+ 
 # Enables you to specify a file where Kibana stores log output.
-#logging.appenders.default:
-#  type: file
-#  fileName: /var/logs/kibana.log
-#  layout:
-#    type: json
+logging.appenders.file:
+  type: file
+  fileName: {{ install_kibana_log_path }}/kibana.log
+  layout:
+    type: json
+
+logging.root:
+    appenders: [file]
+    level: {{ install_kibana_loglevel }}
 
 # Logs queries sent to Elasticsearch.
 #logging.loggers:
 #  - name: elasticsearch.query
-#    level: debug
+#    level: {{ install_kibana_loglevel }}
 
 # Logs http responses.
 #logging.loggers:
 #  - name: http.server.response
-#    level: debug
+#    level: {{ install_kibana_loglevel }}
 
 # Logs system usage information.
 #logging.loggers:
 #  - name: metrics.ops
-#    level: debug
+#    level: {{ install_kibana_loglevel }}
 
 # =================== System: Other ===================
 # The path where Kibana stores persistent data not saved in Elasticsearch. Defaults to data

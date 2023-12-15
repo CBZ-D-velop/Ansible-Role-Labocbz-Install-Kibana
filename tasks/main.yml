@@ -76,7 +76,23 @@
       ansible.builtin.template:
         src: "templates/kibana.yml.j2"
         dest: "{{ install_kibana_config_path }}/kibana.yml"
-        mode: "0660"
+        mode: "0700"
         group: "{{ install_kibana_group }}"
-        owner: "root"
+        owner: "{{ install_kibana_user }}"
         lstrip_blocks: yes
+
+    - name: "Set Kibana permissions"
+      register: output
+      changed_when: output.size < 0
+      loop:
+        - "{{ install_kibana_log_path }}"
+        - "{{ install_kibana_config_path }}"
+      loop_control:
+        loop_var: path
+      ansible.builtin.file:
+        path: "{{ path }}"
+        recurse: yes
+        mode: "0700"
+        group: "{{ install_kibana_group }}"
+        owner: "{{ install_kibana_user }}"
+        state: directory

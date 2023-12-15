@@ -1,4 +1,10 @@
 ---
+inv_prepare_host_system_users:
+  - login: "kibana"
+    group: "kibana"
+  - login: "elasticsearch"
+    group: "elasticsearch"
+
 inv_install_kibana_major_version: "8"
 
 inv_install_kibana_config_path: "/etc/kibana"

@@ -251,6 +251,10 @@ Here you can put your change to keep a trace of your work and decisions.
 * Molecule now use custom Docker image in CI/CD by env vars
 * New CICD with needs and optimization
 
+### 2023-12-15: System users
+
+* Role can now use system users and address groups
+
 ## Authors
 
 * Lord Robin Crombez

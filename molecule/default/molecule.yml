@@ -56,14 +56,13 @@ verifier:
 scenario:
   name: "default"
   test_sequence:
-    - "lint"
     - "destroy"
-    #- "dependency" # need a "requirements.yml" file
+    - "dependency" # need a "requirements.yml" file
     - "syntax"
     - "create"
     - "prepare"
     - "converge"
     #- "idempotence"
-    #- "side_effect" # need a "requirements.yml" file
+    - "side_effect" # need a "requirements.yml" file
     - "verify"
     - "destroy"
