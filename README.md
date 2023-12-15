@@ -159,7 +159,7 @@ inv_install_kibana_major_version: "8"
 
 inv_install_kibana_config_path: "/etc/kibana"
 inv_install_kibana_port: 5601
-inv_install_kibana_cluster_name: "my-kibana-cluster-role.domain.tld"
+inv_install_kibana_cluster_name: "my-kibana-cluster.domain.tld"
 
 inv_install_kibana_rewrite_base_path: false
 #inv_install_kibana_base_path: ""
@@ -250,6 +250,10 @@ Here you can put your change to keep a trace of your work and decisions.
 * Molecule now use remote Docker image by Lord Robin Crombez
 * Molecule now use custom Docker image in CI/CD by env vars
 * New CICD with needs and optimization
+
+### 2023-12-15: System users
+
+* Role can now use system users and address groups
 
 ## Authors
 

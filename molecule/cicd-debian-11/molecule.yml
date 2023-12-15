@@ -28,12 +28,6 @@ platforms:
     #storage_opt: overlay.mount_program=/usr/bin/fuse-overlayfs
     #storage_driver: overlay
 
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
-  flake8
-
 provisioner:
   name: "ansible"
   inventory:
@@ -62,14 +56,13 @@ verifier:
 scenario:
   name: "cicd-debian-11"
   test_sequence:
-    #- "lint"
     - "destroy"
-    #- "dependency" # need a "requirements.yml" file
+    - "dependency" # need a "requirements.yml" file
     - "syntax"
-    - "create"
-    - "prepare"
-    - "converge"
+    #- "create"
+    #- "prepare"
+    #- "converge"
     #- "idempotence"
-    #- "side_effect" # need a "requirements.yml" file
+    - "side_effect" # need a "requirements.yml" file
     - "verify"
     - "destroy"

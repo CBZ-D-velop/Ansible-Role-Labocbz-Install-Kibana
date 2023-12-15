@@ -1,9 +1,15 @@
 ---
+inv_prepare_host_system_users:
+  - login: "kibana"
+    group: "kibana"
+  - login: "elasticsearch"
+    group: "elasticsearch"
+
 inv_install_kibana_major_version: "8"
 
 inv_install_kibana_config_path: "/etc/kibana"
 inv_install_kibana_port: 5601
-inv_install_kibana_cluster_name: "my-kibana-cluster-role.domain.tld"
+inv_install_kibana_cluster_name: "my-kibana-cluster.domain.tld"
 
 inv_install_kibana_rewrite_base_path: false
 #inv_install_kibana_base_path: ""
