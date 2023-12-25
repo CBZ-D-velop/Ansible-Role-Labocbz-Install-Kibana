@@ -33,5 +33,8 @@
         install_kibana_ssl_authorities: "{{ inv_install_kibana_ssl_authorities }}"
         install_kibana_ssl_key: "{{ inv_install_kibana_ssl_key }}"
         install_kibana_ssl_crt: "{{ inv_install_kibana_ssl_crt }}"
+        install_kibana_elastic_ssl_authorities: "{{ inv_install_kibana_elastic_ssl_authorities }}"
+        install_kibana_elastic_ssl_key: "{{ inv_install_kibana_elastic_ssl_key }}"
+        install_kibana_elastic_ssl_crt: "{{ inv_install_kibana_elastic_ssl_crt }}"
       ansible.builtin.include_role:
         name: "labocbz.install_kibana"
