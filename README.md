@@ -111,13 +111,15 @@ Some vars a required to run this role:
 
 ```YAML
 ---
----
 install_kibana_major_version: "8"
 
 install_kibana_config_path: "/etc/kibana"
 install_kibana_host: "0.0.0.0"
 install_kibana_port: 5601
 install_kibana_cluster_name: "my.kibana-cluster.tld"
+
+install_kibana_loglevel: "info"
+install_kibana_log_path: "/var/log/kibana"
 
 install_kibana_rewrite_base_path: false
 install_kibana_base_path: ""
@@ -134,7 +136,7 @@ install_kibana_ssl: true
 install_kibana_elastic_client_auth: false
 install_kibana_ssl_key: "/etc/ssl/myCert.key"
 install_kibana_ssl_crt: "/etc/ssl/myCert.crt"
-install_kibana_ssl_authorities: "/etc/ssl/cacert"
+install_kibana_ssl_authorities: "/etc/ssl/myCert.key"
 
 #install_kibana_service_account_token: "myToken"
 install_kibana_service_account_token_basename: "TOKEN-TO-BE-CREATED"
@@ -142,7 +144,12 @@ install_kibana_elastic_protocol: "http"
 install_kibana_elastic_hosts:
   - "localhost:9200"
 
+install_kibana_user: "kibana"
 install_kibana_group: "kibana"
+
+install_kibana_elastic_ssl_authorities: "/etc/ssl/myCert.key"
+install_kibana_elastic_ssl_key: "/etc/ssl/myCert.key"
+install_kibana_elastic_ssl_crt: "/etc/ssl/myCert.crt"
 
 ```
 
@@ -183,6 +190,10 @@ inv_install_kibana_elastic_hosts:
   - "molecule-local-instance-2-install-kibana:9200"
   - "molecule-local-instance-3-install-kibana:9200"
 
+install_kibana_elastic_ssl_authorities: "{{ inv_install_kibana_ssl_authorities }}"
+install_kibana_elastic_ssl_key: "{{ inv_install_kibana_ssl_key }}"
+install_kibana_elastic_ssl_crt: "{{ inv_install_kibana_ssl_crt }}"
+
 ```
 
 ```YAML
@@ -220,8 +231,12 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
     install_kibana_ssl_authorities: "{{ inv_install_kibana_ssl_authorities }}"
     install_kibana_ssl_key: "{{ inv_install_kibana_ssl_key }}"
     install_kibana_ssl_crt: "{{ inv_install_kibana_ssl_crt }}"
+    install_kibana_elastic_ssl_authorities: "{{ inv_install_kibana_elastic_ssl_authorities }}"
+    install_kibana_elastic_ssl_key: "{{ inv_install_kibana_elastic_ssl_key }}"
+    install_kibana_elastic_ssl_crt: "{{ inv_install_kibana_elastic_ssl_crt }}"
   ansible.builtin.include_role:
     name: "labocbz.install_kibana"
+
 ```
 
 ## Architectural Decisions Records
@@ -254,6 +269,10 @@ Here you can put your change to keep a trace of your work and decisions.
 ### 2023-12-15: System users
 
 * Role can now use system users and address groups
+
+### 2023-25-12: Elastic custom certs
+
+* Role handle multiples certs for  Kibana / Elastic
 
 ## Authors
 

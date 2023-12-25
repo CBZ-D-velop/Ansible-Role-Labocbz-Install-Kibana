@@ -24,7 +24,7 @@ install_kibana_ssl: true
 install_kibana_elastic_client_auth: false
 install_kibana_ssl_key: "/etc/ssl/myCert.key"
 install_kibana_ssl_crt: "/etc/ssl/myCert.crt"
-install_kibana_ssl_authorities: "/etc/ssl/cacert"
+install_kibana_ssl_authorities: "/etc/ssl/myCert.key"
 
 #install_kibana_service_account_token: "myToken"
 install_kibana_service_account_token_basename: "TOKEN-TO-BE-CREATED"
@@ -34,3 +34,7 @@ install_kibana_elastic_hosts:
 
 install_kibana_user: "kibana"
 install_kibana_group: "kibana"
+
+install_kibana_elastic_ssl_authorities: "/etc/ssl/myCert.key"
+install_kibana_elastic_ssl_key: "/etc/ssl/myCert.key"
+install_kibana_elastic_ssl_crt: "/etc/ssl/myCert.crt"

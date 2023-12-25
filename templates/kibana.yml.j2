@@ -113,9 +113,9 @@ elasticsearch.serviceAccountToken: "{{ install_kibana_service_account_token }}"
 # xpack.security.http.ssl.client_authentication in Elasticsearch is set to required.
 
 {% if install_kibana_elastic_client_auth | default(false) %}
-elasticsearch.ssl.certificate: "{{ install_kibana_ssl_crt }}"
-elasticsearch.ssl.key: "{{ install_kibana_ssl_key }}"
-elasticsearch.ssl.certificateAuthorities: [ "{{ install_kibana_ssl_authorities }}" ]
+elasticsearch.ssl.certificate: "{{ install_kibana_elastic_ssl_crt }}"
+elasticsearch.ssl.key: "{{ install_kibana_elastic_ssl_key }}"
+elasticsearch.ssl.certificateAuthorities: [ "{{ install_kibana_elastic_ssl_authorities }}" ]
 {% endif %}
 
 #elasticsearch.ssl.certificate: /path/to/your/client.crt
