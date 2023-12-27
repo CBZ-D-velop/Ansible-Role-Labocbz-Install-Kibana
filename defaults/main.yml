@@ -38,7 +38,3 @@ install_kibana_elastic_hosts:
 
 install_kibana_user: "kibana"
 install_kibana_group: "kibana"
-
-install_kibana_elastic_ssl_authorities: "/etc/ssl/myCert.key"
-install_kibana_elastic_ssl_key: "/etc/ssl/myCert.key"
-install_kibana_elastic_ssl_crt: "/etc/ssl/myCert.crt"
