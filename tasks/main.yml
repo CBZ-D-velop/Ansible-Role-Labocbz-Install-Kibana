@@ -40,7 +40,7 @@
               failed_when: install_kibana_service_account_token_response.json.created != true
               changed_when: install_kibana_service_account_token_response.json.created != true
               ansible.builtin.uri:
-                url: "{{ install_kibana_elastic_protocol }}://{{ inventory_hostname }}:{{ install_kibana_elasticsearch_port }}/_security/service/elastic/kibana/credential/token/service_account_token-kibana-{{ install_kibana_service_account_token_basename }}?pretty=true"
+                url: "{{ install_kibana_elastic_protocol }}://{{ install_kibana_elastic_hosts[0] }}/_security/service/elastic/kibana/credential/token/service_account_token-kibana-{{ install_kibana_service_account_token_basename }}?pretty=true"
                 method: POST
                 user: "elastic"
                 password: "{{ install_kibana_elastic_password }}"
@@ -61,7 +61,7 @@
               failed_when: install_kibana_service_account_token_response.json.created != true
               changed_when: install_kibana_service_account_token_response.json.created != true
               ansible.builtin.uri:
-                url: "{{ install_kibana_elastic_protocol }}://{{ inventory_hostname }}:{{ install_kibana_elasticsearch_port }}/_security/service/elastic/kibana/credential/token/service_account_token-kibana-{{ install_kibana_service_account_token_basename }}?pretty=true"
+                url: "{{ install_kibana_elastic_protocol }}://{{ install_kibana_elastic_hosts[0] }}/_security/service/elastic/kibana/credential/token/service_account_token-kibana-{{ install_kibana_service_account_token_basename }}?pretty=true"
                 method: POST
                 user: "elastic"
                 password: "{{ install_kibana_elastic_password }}"
