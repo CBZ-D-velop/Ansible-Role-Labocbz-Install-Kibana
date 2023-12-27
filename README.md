@@ -138,6 +138,10 @@ install_kibana_ssl_key: "/etc/ssl/myCert.key"
 install_kibana_ssl_crt: "/etc/ssl/myCert.crt"
 install_kibana_ssl_authorities: "/etc/ssl/myCert.key"
 
+install_kibana_elastic_ssl_authorities: "/etc/ssl/myCert.key"
+install_kibana_elastic_ssl_crt: "/etc/ssl/myCert.crt"
+install_kibana_elastic_ssl_key: "/etc/ssl/myCert.key"
+
 #install_kibana_service_account_token: "myToken"
 install_kibana_service_account_token_basename: "TOKEN-TO-BE-CREATED"
 install_kibana_elastic_protocol: "http"
@@ -162,6 +166,12 @@ In order to surchage vars, you have multiples possibilities but for mains cases 
 ```YAML
 # From inventory
 ---
+inv_prepare_host_system_users:
+  - login: "kibana"
+    group: "kibana"
+  - login: "elasticsearch"
+    group: "elasticsearch"
+
 inv_install_kibana_major_version: "8"
 
 inv_install_kibana_config_path: "/etc/kibana"
@@ -187,12 +197,10 @@ inv_install_kibana_ssl_authorities: "{{ inv_install_kibana_ssl_path }}/{{ inv_in
 inv_install_kibana_elastic_protocol: "https"
 inv_install_kibana_elastic_hosts:
   - "molecule-local-instance-1-install-kibana:9200"
-  - "molecule-local-instance-2-install-kibana:9200"
-  - "molecule-local-instance-3-install-kibana:9200"
 
-install_kibana_elastic_ssl_authorities: "{{ inv_install_kibana_ssl_authorities }}"
-install_kibana_elastic_ssl_key: "{{ inv_install_kibana_ssl_key }}"
-install_kibana_elastic_ssl_crt: "{{ inv_install_kibana_ssl_crt }}"
+inv_install_kibana_elastic_ssl_authorities: "{{ inv_install_kibana_ssl_authorities }}"
+inv_install_kibana_elastic_ssl_key: "{{ inv_install_kibana_ssl_key }}"
+inv_install_kibana_elastic_ssl_crt: "{{ inv_install_kibana_ssl_crt }}"
 
 ```
 
@@ -218,7 +226,7 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
     install_kibana_rewrite_base_path: "{{ inv_install_kibana_rewrite_base_path }}"
     install_kibana_base_path: "{{ inv_install_kibana_base_path }}"
     install_kibana_public_pase_url: "{{ inv_install_kibana_public_pase_url }}"
-    install_kibana_ssl_src: "{{ inv_install_kibana_ssl_src }}"
+    install_kibana_ssl: "{{ inv_install_kibana_ssl }}"
     install_kibana_ssl_path: "{{ inv_install_kibana_ssl_path }}"
     install_kibana_elasticsearch_port: "{{ inv_install_kibana_elasticsearch_port }}"
     #install_kibana_service_account_token: "{{ inv_install_kibana_service_account_token }}"

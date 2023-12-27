@@ -20,7 +20,7 @@
         install_kibana_rewrite_base_path: "{{ inv_install_kibana_rewrite_base_path }}"
         install_kibana_base_path: "{{ inv_install_kibana_base_path }}"
         install_kibana_public_pase_url: "{{ inv_install_kibana_public_pase_url }}"
-        install_kibana_ssl_src: "{{ inv_install_kibana_ssl_src }}"
+        install_kibana_ssl: "{{ inv_install_kibana_ssl }}"
         install_kibana_ssl_path: "{{ inv_install_kibana_ssl_path }}"
         install_kibana_elasticsearch_port: "{{ inv_install_kibana_elasticsearch_port }}"
         #install_kibana_service_account_token: "{{ inv_install_kibana_service_account_token }}"
