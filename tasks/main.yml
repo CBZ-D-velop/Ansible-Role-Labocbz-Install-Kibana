@@ -15,7 +15,7 @@
 
     - name: "Add Kibana Repository"
       ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64] https://artifacts.elastic.co/packages/{{ install_kibana_major_version }}.x/apt stable main"
+        repo: "deb [arch=amd64] https://artifacts.elastic.co/packages/{{ install_kibana__major_version }}.x/apt stable main"
 
     - name: "Update apt and install Kibana"
       ansible.builtin.apt:
@@ -30,69 +30,69 @@
   block:
     - name: "Get new enrollment TOKEN"
       run_once: true
-      when: not (install_kibana_service_account_token_fact | default(false))
+      when: not (install_kibana__service_account_token_fact | default(false))
       block:
         - name: "Get the token client certs"
-          when:  install_kibana_elastic_client_auth | default(false)
+          when:  install_kibana__elastic_client_auth | default(false)
           block:
             - name: "Call the API and get a new TOKEN CERT"
-              register: install_kibana_service_account_token_response
-              failed_when: install_kibana_service_account_token_response.json.created != true
-              changed_when: install_kibana_service_account_token_response.json.created != true
+              register: install_kibana__service_account_token_response
+              failed_when: install_kibana__service_account_token_response.json.created != true
+              changed_when: install_kibana__service_account_token_response.json.created != true
               ansible.builtin.uri:
-                url: "{{ install_kibana_elastic_protocol }}://{{ install_kibana_elastic_hosts[0] }}/_security/service/elastic/kibana/credential/token/service_account_token-kibana-{{ install_kibana_service_account_token_basename }}?pretty=true"
+                url: "{{ install_kibana__elastic_protocol }}://{{ install_kibana__elastic_hosts[0] }}/_security/service/elastic/kibana/credential/token/service_account_token-kibana-{{ install_kibana__service_account_token_basename }}?pretty=true"
                 method: POST
                 user: "elastic"
-                password: "{{ install_kibana_elastic_password }}"
-                client_cert: "{{ install_kibana_ssl_crt }}"
-                client_key: "{{ install_kibana_ssl_key }}"
+                password: "{{ install_kibana__elastic_password }}"
+                client_cert: "{{ install_kibana__ssl_crt }}"
+                client_key: "{{ install_kibana__ssl_key }}"
 
             - name: "Get/Set enrollment fact TOKEN"
               ansible.builtin.set_fact:
                 cacheable: true
-                install_kibana_service_account_token_fact: "{{ install_kibana_service_account_token_response.json.token.value }}"
-                install_kibana_service_account_token: "{{ install_kibana_service_account_token_response.json.token.value }}"
+                install_kibana__service_account_token_fact: "{{ install_kibana__service_account_token_response.json.token.value }}"
+                install_kibana__service_account_token: "{{ install_kibana__service_account_token_response.json.token.value }}"
 
         - name: "Get the token without client certs"
-          when: not (install_kibana_elastic_client_auth | default(true))
+          when: not (install_kibana__elastic_client_auth | default(true))
           block:
             - name: "Call the API and get a new TOKEN"
-              register: install_kibana_service_account_token_response
-              failed_when: install_kibana_service_account_token_response.json.created != true
-              changed_when: install_kibana_service_account_token_response.json.created != true
+              register: install_kibana__service_account_token_response
+              failed_when: install_kibana__service_account_token_response.json.created != true
+              changed_when: install_kibana__service_account_token_response.json.created != true
               ansible.builtin.uri:
-                url: "{{ install_kibana_elastic_protocol }}://{{ install_kibana_elastic_hosts[0] }}/_security/service/elastic/kibana/credential/token/service_account_token-kibana-{{ install_kibana_service_account_token_basename }}?pretty=true"
+                url: "{{ install_kibana__elastic_protocol }}://{{ install_kibana__elastic_hosts[0] }}/_security/service/elastic/kibana/credential/token/service_account_token-kibana-{{ install_kibana__service_account_token_basename }}?pretty=true"
                 method: POST
                 user: "elastic"
-                password: "{{ install_kibana_elastic_password }}"
+                password: "{{ install_kibana__elastic_password }}"
 
             - name: "Get/Set enrollment fact TOKEN"
               ansible.builtin.set_fact:
                 cacheable: true
-                install_kibana_service_account_token_fact: "{{ install_kibana_service_account_token_response.json.token.value }}"
-                install_kibana_service_account_token: "{{ install_kibana_service_account_token_response.json.token.value }}"
+                install_kibana__service_account_token_fact: "{{ install_kibana__service_account_token_response.json.token.value }}"
+                install_kibana__service_account_token: "{{ install_kibana__service_account_token_response.json.token.value }}"
 
     - name: "Import Kibana configuration file"
       ansible.builtin.template:
         src: "templates/kibana.yml.j2"
-        dest: "{{ install_kibana_config_path }}/kibana.yml"
+        dest: "{{ install_kibana__config_path }}/kibana.yml"
         mode: "0700"
-        group: "{{ install_kibana_group }}"
-        owner: "{{ install_kibana_user }}"
+        group: "{{ install_kibana__group }}"
+        owner: "{{ install_kibana__user }}"
         lstrip_blocks: yes
 
     - name: "Set Kibana permissions"
       register: output
       changed_when: output.size < 0
       loop:
-        - "{{ install_kibana_log_path }}"
-        - "{{ install_kibana_config_path }}"
+        - "{{ install_kibana__log_path }}"
+        - "{{ install_kibana__config_path }}"
       loop_control:
         loop_var: path
       ansible.builtin.file:
         path: "{{ path }}"
         recurse: yes
         mode: "0700"
-        group: "{{ install_kibana_group }}"
-        owner: "{{ install_kibana_user }}"
+        group: "{{ install_kibana__group }}"
+        owner: "{{ install_kibana__user }}"
         state: directory

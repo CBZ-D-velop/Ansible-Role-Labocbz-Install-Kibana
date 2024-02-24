@@ -13,9 +13,9 @@ inv_cert_bundles:
     type: "CA"
     src: "/tmp/My-Local-Ansible-Intermediate-CA-2.pem.crt"
 
-  - name: "my-elasticsearch-cluster.domain.tld"
+  - name: "my-elasticsearch-server.domain.tld"
     type: "cert"
-    src: "/tmp/my-elasticsearch-cluster.domain.tld.zip"
+    src: "/tmp/my-elasticsearch-server.domain.tld.zip"
     dest: "/etc/elasticsearch/ssl"
     #src_user: "myUser"
     #src_password: "secretPassword"
@@ -23,9 +23,9 @@ inv_cert_bundles:
     dest_group: "elasticsearch"
     dest_mode: "0700"
 
-  - name: "my-kibana-cluster.domain.tld"
+  - name: "my-kibana-server.domain.tld"
     type: "cert"
-    src: "/tmp/my-kibana-cluster.domain.tld.zip"
+    src: "/tmp/my-kibana-server.domain.tld.zip"
     dest: "/etc/kibana/ssl"
     #src_user: "myUser"
     #src_password: "secretPassword"

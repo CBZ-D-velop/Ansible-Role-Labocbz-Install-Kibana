@@ -1,40 +1,40 @@
 ---
-install_kibana_major_version: "8"
+install_kibana__major_version: "8"
 
-install_kibana_config_path: "/etc/kibana"
-install_kibana_host: "0.0.0.0"
-install_kibana_port: 5601
-install_kibana_cluster_name: "my.kibana-cluster.tld"
+install_kibana__config_path: "/etc/kibana"
+install_kibana__host: "0.0.0.0"
+install_kibana__port: 5601
+install_kibana__cluster_name: "my.kibana-server.tld"
 
-install_kibana_loglevel: "info"
-install_kibana_log_path: "/var/log/kibana"
+install_kibana__loglevel: "info"
+install_kibana__log_path: "/var/log/kibana"
 
-install_kibana_rewrite_base_path: false
-install_kibana_base_path: ""
-#install_kibana_public_base_url: ""
+install_kibana__rewrite_base_path: false
+install_kibana__base_path: ""
+#install_kibana__public_base_url: ""
 
-install_kibana_ssl_path: "{{ install_kibana_config_path }}/ssl"
-install_kibana_p12_password: "myPassword"
+install_kibana__ssl_path: "{{ install_kibana__config_path }}/ssl"
+install_kibana__p12_password: "myPassword"
 
-install_kibana_elasticsearch_port: 9200
-install_kibana_elastic_user: "elastic"
-install_kibana_elastic_password: "myVeryStringP@ssword"
+install_kibana__elasticsearch_port: 9200
+install_kibana__elastic_user: "elastic"
+install_kibana__elastic_password: "myVeryStringP@ssword"
 
-install_kibana_ssl: true
-install_kibana_elastic_client_auth: false
-install_kibana_ssl_key: "/etc/ssl/myCert.key"
-install_kibana_ssl_crt: "/etc/ssl/myCert.crt"
-install_kibana_ssl_authorities: "/etc/ssl/myCert.key"
+install_kibana__ssl: true
+install_kibana__elastic_client_auth: false
+install_kibana__ssl_key: "/etc/ssl/myCert.key"
+install_kibana__ssl_crt: "/etc/ssl/myCert.crt"
+install_kibana__ssl_authorities: "/etc/ssl/myCert.key"
 
-install_kibana_elastic_ssl_authorities: "/etc/ssl/myCert.key"
-install_kibana_elastic_ssl_crt: "/etc/ssl/myCert.crt"
-install_kibana_elastic_ssl_key: "/etc/ssl/myCert.key"
+install_kibana__elastic_ssl_authorities: "/etc/ssl/myCert.key"
+install_kibana__elastic_ssl_crt: "/etc/ssl/myCert.crt"
+install_kibana__elastic_ssl_key: "/etc/ssl/myCert.key"
 
-#install_kibana_service_account_token: "myToken"
-install_kibana_service_account_token_basename: "TOKEN-TO-BE-CREATED"
-install_kibana_elastic_protocol: "http"
-install_kibana_elastic_hosts:
+#install_kibana__service_account_token: "myToken"
+install_kibana__service_account_token_basename: "TOKEN-TO-BE-CREATED"
+install_kibana__elastic_protocol: "http"
+install_kibana__elastic_hosts:
   - "localhost:9200"
 
-install_kibana_user: "kibana"
-install_kibana_group: "kibana"
+install_kibana__user: "kibana"
+install_kibana__group: "kibana"
