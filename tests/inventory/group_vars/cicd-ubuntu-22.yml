@@ -1,6 +1,6 @@
 ---
 inv_install_kibana__elastic_hosts:
-  - "molecule-cicd-ubuntu-22-instance-1-install-kibana"
+  - "molecule-cicd-ubuntu-22-instance-1-install-kibana:9200"
 
 inv_install_elasticsearch__seed_hosts:
   - "molecule-cicd-ubuntu-22-instance-1-install-kibana"
