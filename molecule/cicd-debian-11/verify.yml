@@ -2,21 +2,21 @@
 # Don't forget to keep this file updated
 # molecule/<scenario>/verify.yml
 - name: "Verify"
-  hosts: "all"
+  hosts: "cicd-debian-11"
   gather_facts: false
   tasks:
 
     - name: "Get Kibana service current state"
-      register: install_kibana_service_status
-      failed_when: not install_kibana_service_status.status.ActiveState == 'active'
+      register: install_kibana__service_status
+      failed_when: not install_kibana__service_status.status.ActiveState == 'active'
       ansible.builtin.systemd:
         name: "kibana"
 
     - name: "Check Kibana folders and conf"
-      when: inv_install_kibana_ssl | default(false)
+      when: inv_install_kibana__ssl | default(false)
       loop:
-        - "{{ inv_install_kibana_ssl_crt }}"
-        - "{{ inv_install_kibana_ssl_key }}"
+        - "{{ inv_install_kibana__ssl_crt }}"
+        - "{{ inv_install_kibana__ssl_key }}"
       loop_control:
         loop_var: folder_path
       register: folder_path
@@ -26,6 +26,6 @@
 
     - name: "Check Kibana connectivity"
       ansible.builtin.wait_for:
-        host: "localhost"
-        port: "{{ inv_install_kibana_port }}"
-        timeout: 240
+        host: "{{ inventory_hostname }}"
+        port: "{{ inv_install_kibana__port }}"
+        timeout: 120

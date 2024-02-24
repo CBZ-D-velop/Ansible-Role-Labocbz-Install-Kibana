@@ -1,0 +1,9 @@
+---
+inv_install_kibana__elastic_hosts:
+  - "molecule-cicd-debian-11-instance-1-install-kibana:9200"
+
+inv_install_elasticsearch__seed_hosts:
+  - "molecule-cicd-debian-11-instance-1-install-kibana"
+
+inv_install_elasticsearch__initial_master_nodes:
+  - "molecule-cicd-debian-11-instance-1-install-kibana"

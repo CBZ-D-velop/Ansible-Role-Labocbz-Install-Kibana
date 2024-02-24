@@ -1,36 +1,9 @@
 ---
-inv_prepare_host_system_users:
-  - login: "kibana"
-    group: "kibana"
-  - login: "elasticsearch"
-    group: "elasticsearch"
-
-inv_install_kibana_major_version: "8"
-
-inv_install_kibana_config_path: "/etc/kibana"
-inv_install_kibana_port: 5601
-inv_install_kibana_cluster_name: "my-kibana-cluster.domain.tld"
-
-inv_install_kibana_rewrite_base_path: false
-#inv_install_kibana_base_path: ""
-#inv_install_kibana_public_base_url: "https://localhost:{{ inv_install_kibana_port }}"
-
-inv_install_kibana_ssl_path: "{{ inv_install_kibana_config_path }}/ssl"
-
-inv_install_kibana_elasticsearch_port: 9200
-inv_install_kibana_elastic_user: "elastic"
-inv_install_kibana_elastic_password: "myVeryStringP@ssword"
-#inv_install_kibana_service_account_token: ""
-inv_install_kibana_service_account_token_basename: "ANSIBLE-{{ ansible_date_time.iso8601_micro.replace(':', '-').replace('.', '-') }}"
-inv_install_kibana_elastic_client_auth: true
-inv_install_kibana_ssl_key: "{{ inv_install_kibana_ssl_path }}/{{ inv_install_kibana_cluster_name }}/{{ inv_install_kibana_cluster_name }}.pem.key"
-inv_install_kibana_ssl_crt: "{{ inv_install_kibana_ssl_path }}/{{ inv_install_kibana_cluster_name }}/{{ inv_install_kibana_cluster_name }}.pem.crt"
-
-inv_install_kibana_ssl_authorities: "{{ inv_install_kibana_ssl_path }}/{{ inv_install_kibana_cluster_name }}/ca-chain.pem.crt"
-inv_install_kibana_elastic_protocol: "https"
-inv_install_kibana_elastic_hosts:
+inv_install_kibana__elastic_hosts:
   - "molecule-local-instance-1-install-kibana:9200"
 
-inv_install_kibana_elastic_ssl_authorities: "{{ inv_install_kibana_ssl_authorities }}"
-inv_install_kibana_elastic_ssl_key: "{{ inv_install_kibana_ssl_key }}"
-inv_install_kibana_elastic_ssl_crt: "{{ inv_install_kibana_ssl_crt }}"
+inv_install_elasticsearch__seed_hosts:
+  - "molecule-local-instance-1-install-kibana"
+
+inv_install_elasticsearch__initial_master_nodes:
+  - "molecule-local-instance-1-install-kibana"

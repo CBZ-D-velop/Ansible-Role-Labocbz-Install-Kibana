@@ -9,49 +9,49 @@
 
 # =================== System: Kibana Server ===================
 # Kibana is served by a back end server. This setting specifies the port to use.
-server.port: {{ install_kibana_port }}
+server.port: {{ install_kibana__port }}
 
 # Specifies the address to which the Kibana server will bind. IP addresses and host names are both valid values.
 # The default is 'localhost', which usually means remote machines will not be able to connect.
 # To allow connections from remote users, set this parameter to a non-loopback address.
-server.host: "{{ install_kibana_host }}"
+server.host: "{{ install_kibana__host }}"
 
 # Enables you to specify a path to mount Kibana at if you are running behind a proxy.
 # Use the `server.rewriteBasePath` setting to tell Kibana if it should remove the basePath
 # from requests it receives, and to prevent a deprecation warning at startup.
 # This setting cannot end in a slash.
-{% if install_kibana_base_path | default(false) %}
-server.basePath: "{{ install_kibana_base_path }}"
+{% if install_kibana__base_path | default(false) %}
+server.basePath: "{{ install_kibana__base_path }}"
 {% endif %}
 
 # Specifies whether Kibana should rewrite requests that are prefixed with
 # `server.basePath` or require that they are rewritten by your reverse proxy.
 # Defaults to `false`.
-server.rewriteBasePath: "{{ install_kibana_rewrite_base_path }}"
+server.rewriteBasePath: "{{ install_kibana__rewrite_base_path }}"
 
 # Specifies the public URL at which Kibana is available for end users. If
 # `server.basePath` is configured this URL should end with the same basePath.
 #server.publicBaseUrl:
-{% if install_kibana_public_base_url | default(false) %}
-server.publicBaseUrl: "{{ install_kibana_public_base_url }}"
+{% if install_kibana__public_base_url | default(false) %}
+server.publicBaseUrl: "{{ install_kibana__public_base_url }}"
 {% endif %}
 
 # The maximum payload size in bytes for incoming server requests.
 #server.maxPayload: 1048576
 
 # The Kibana server's name. This is used for display purposes.
-server.name: "{{ install_kibana_cluster_name }}"
+server.name: "{{ install_kibana__cluster_name }}"
 
 # =================== System: Kibana Server (Optional) ===================
 # Enables SSL and paths to the PEM-format SSL certificate and SSL key files, respectively.
 # These settings enable SSL for outgoing requests from the Kibana server to the browser.
-{% if install_kibana_ssl | default(false) %}
+{% if install_kibana__ssl | default(false) %}
 server.ssl.enabled: true
-server.ssl.certificate: {{ install_kibana_ssl_crt }}
-server.ssl.key: {{ install_kibana_ssl_key }}
+server.ssl.certificate: {{ install_kibana__ssl_crt }}
+server.ssl.key: {{ install_kibana__ssl_key }}
 
 xpack.security.public.protocol: https
-#xpack.security.public.hostname: install_kibana_URL
+#xpack.security.public.hostname: install_kibana__URL
 {% else %}
 #server.ssl.enabled: false
 #server.ssl.certificate: /path/to/your/server.crt
@@ -63,8 +63,8 @@ xpack.security.public.protocol: https
 # The URLs of the Elasticsearch instances to use for all your queries.
 #elasticsearch.hosts: ["http://localhost:9200"]
 elasticsearch.hosts:
-{% for host in install_kibana_elastic_hosts %}
-  - "{{ install_kibana_elastic_protocol }}://{{ host }}"
+{% for host in install_kibana__elastic_hosts %}
+  - "{{ install_kibana__elastic_protocol }}://{{ host }}"
 {% endfor %}
 
 # If your Elasticsearch is protected with basic authentication, these settings provide
@@ -79,7 +79,7 @@ elasticsearch.hosts:
 # Use this token instead of a username/password.
 # elasticsearch.serviceAccountToken: "my_token"
 
-elasticsearch.serviceAccountToken: "{{ install_kibana_service_account_token }}"
+elasticsearch.serviceAccountToken: "{{ install_kibana__service_account_token }}"
 
 # Time in milliseconds to wait for Elasticsearch to respond to pings. Defaults to the value of
 # the elasticsearch.requestTimeout setting.
@@ -112,12 +112,12 @@ elasticsearch.serviceAccountToken: "{{ install_kibana_service_account_token }}"
 # These files are used to verify the identity of Kibana to Elasticsearch and are required when
 # xpack.security.http.ssl.client_authentication in Elasticsearch is set to required.
 
-{% if (install_kibana_elastic_client_auth | default(false)) or (install_kibana_elastic_protocol == "https" ) %}
-elasticsearch.ssl.certificateAuthorities: [ "{{ install_kibana_elastic_ssl_authorities }}" ]
+{% if (install_kibana__elastic_client_auth | default(false)) or (install_kibana__elastic_protocol == "https" ) %}
+elasticsearch.ssl.certificateAuthorities: [ "{{ install_kibana__elastic_ssl_authorities }}" ]
 {% endif %}
-{% if install_kibana_elastic_client_auth | default(false) %}
-elasticsearch.ssl.certificate: "{{ install_kibana_elastic_ssl_crt }}"
-elasticsearch.ssl.key: "{{ install_kibana_elastic_ssl_key }}"
+{% if install_kibana__elastic_client_auth | default(false) %}
+elasticsearch.ssl.certificate: "{{ install_kibana__elastic_ssl_crt }}"
+elasticsearch.ssl.key: "{{ install_kibana__elastic_ssl_key }}"
 {% endif %}
 
 #elasticsearch.ssl.certificate: /path/to/your/client.crt
@@ -132,33 +132,33 @@ elasticsearch.ssl.verificationMode: certificate
 
 # =================== System: Logging ===================
 # Set the value of this setting to off to suppress all logging output, or to debug to log everything. Defaults to 'info'
-logging.root.level: {{ install_kibana_loglevel }}
+logging.root.level: {{ install_kibana__loglevel }}
  
 # Enables you to specify a file where Kibana stores log output.
 logging.appenders.file:
   type: file
-  fileName: {{ install_kibana_log_path }}/kibana.log
+  fileName: {{ install_kibana__log_path }}/kibana.log
   layout:
     type: json
 
 logging.root:
     appenders: [file]
-    level: {{ install_kibana_loglevel }}
+    level: {{ install_kibana__loglevel }}
 
 # Logs queries sent to Elasticsearch.
 #logging.loggers:
 #  - name: elasticsearch.query
-#    level: {{ install_kibana_loglevel }}
+#    level: {{ install_kibana__loglevel }}
 
 # Logs http responses.
 #logging.loggers:
 #  - name: http.server.response
-#    level: {{ install_kibana_loglevel }}
+#    level: {{ install_kibana__loglevel }}
 
 # Logs system usage information.
 #logging.loggers:
 #  - name: metrics.ops
-#    level: {{ install_kibana_loglevel }}
+#    level: {{ install_kibana__loglevel }}
 
 # =================== System: Other ===================
 # The path where Kibana stores persistent data not saved in Elasticsearch. Defaults to data
