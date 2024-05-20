@@ -27,7 +27,7 @@ server.basePath: "{{ install_kibana__base_path }}"
 # Specifies whether Kibana should rewrite requests that are prefixed with
 # `server.basePath` or require that they are rewritten by your reverse proxy.
 # Defaults to `false`.
-server.rewriteBasePath: "{{ install_kibana__rewrite_base_path }}"
+server.rewriteBasePath: "{{ install_kibana__rewrite_base_path | lower }}"
 
 # Specifies the public URL at which Kibana is available for end users. If
 # `server.basePath` is configured this URL should end with the same basePath.
